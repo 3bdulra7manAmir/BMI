@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_test_area/screens/result.dart';
 
 class Home extends StatefulWidget
 {
@@ -13,6 +16,11 @@ class _HomeState extends State<Home>{
 
 Color? colorMale = Colors.grey[400];
 Color? colorFemale = Colors.grey[400];
+
+double height = 120.0;
+int weight = 120;
+int age = 118;
+String gender = '';
 
 //ANOTHER METHOD
 //Color? color = Colors.grey[400];
@@ -58,6 +66,7 @@ Color? colorFemale = Colors.grey[400];
                         setState(() {
                           colorMale = Colors.blue;
                           colorFemale = Colors.grey[400];
+                          gender = "Male";
                           //isMale = true;
                         });
                       },
@@ -91,6 +100,7 @@ Color? colorFemale = Colors.grey[400];
                         setState(() {
                           colorFemale = Colors.blue;
                           colorMale = Colors.grey[400];
+                          gender = "Feale";
                           //isMale = false;
                         });
                       },
@@ -139,13 +149,15 @@ Color? colorFemale = Colors.grey[400];
                   children:
                   [
                     const Text("HEIGHT", style: TextStyle(fontSize:  25, fontWeight: FontWeight.bold,),),
-                    const Row
+                    Row
                     (
                       crossAxisAlignment: CrossAxisAlignment.baseline, textBaseline: TextBaseline.alphabetic,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("180", style: TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),), Text("cm", style: TextStyle(fontSize:  20),)],
+                      children: [Text("${height.round()}", style: const TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),), const Text("cm", style: TextStyle(fontSize:  20),)],
                     ),
-                    Slider(value: 120, min: 80, max: 220, onChanged: (value){print(value.round());},),
+                    Slider(value: height, min: 80, max: 220, onChanged: (value){setState(() {
+                      height = value;
+                    });},),
                   ]
                 ),
               ),
@@ -172,11 +184,17 @@ Color? colorFemale = Colors.grey[400];
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:
                         [
-                          const Text("AGE", style: TextStyle(fontSize:  25, fontWeight: FontWeight.bold,),),
-                          const Text("180", style: TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),),
+                          const Text("Weight", style: TextStyle(fontSize:  25, fontWeight: FontWeight.bold,),),
+                          Text("$weight", style: const TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),),
                           Row( mainAxisAlignment: MainAxisAlignment.center,
-                            children:[FloatingActionButton(onPressed: () {}, mini: true, child: const Icon(Icons.remove),),
-                          FloatingActionButton(onPressed: () {}, mini: true, child: const Icon(Icons.add),)],)
+                            children:[FloatingActionButton(onPressed: () {setState(() {
+                              weight = weight - 1;
+                              if (weight <= 0){weight = 0;}
+                            });}, mini: true, child: const Icon(Icons.remove),),
+                          FloatingActionButton(onPressed: () {setState(() {
+                            weight = weight + 1;
+                            if (weight > 300){weight = 300;} //P IN here
+                          });}, mini: true, child: const Icon(Icons.add),)],)
                         ],
                         
                       ),
@@ -193,10 +211,16 @@ Color? colorFemale = Colors.grey[400];
                         children:
                         [
                           const Text("AGE", style: TextStyle(fontSize:  25, fontWeight: FontWeight.bold,),),
-                          const Text("180", style: TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),),
+                          Text("$age", style: const TextStyle(fontSize:  40, fontWeight: FontWeight.w900,),),
                           Row( mainAxisAlignment: MainAxisAlignment.center,
-                          children: [FloatingActionButton(onPressed: () {}, mini: true, child: const Icon(Icons.remove),),
-                          FloatingActionButton(onPressed: () {}, mini: true, child: const Icon(Icons.add),)],)
+                          children: [FloatingActionButton(onPressed: () {setState(() {
+                            age = age - 1;
+                            if (age <= 0){age = 0;}
+                          });}, mini: true, child: const Icon(Icons.remove),),
+                          FloatingActionButton(onPressed: () {setState(() {
+                            age = age + 1;
+                            if (age > 120){age = 120;}
+                          });}, mini: true, heroTag: "Age+", child: const Icon(Icons.add),)],)
                         ],
                       ),
                     ),
@@ -207,10 +231,14 @@ Color? colorFemale = Colors.grey[400];
                     ),
 
             //CALC BUTTON
-            Container(
+            Container
+            (
               width: double.infinity,
               color: const Color.fromARGB(115, 255, 255, 140),
-              child: MaterialButton(onPressed: (){}, textColor: Colors.black, child: const Text("CALCULATE"),))
+              child: MaterialButton(onPressed: (){
+                double result = weight / pow(height / 100, 2);
+                Navigator.push(context,MaterialPageRoute(builder: (context) =>  BMIResultScreen(age: age, gender: gender, result: result, weight: weight, height: height,)));}, child: const Text("Calculate",style: TextStyle(fontSize:  20, fontWeight: FontWeight.bold,),),)
+            )
           ],
         )
       ),
