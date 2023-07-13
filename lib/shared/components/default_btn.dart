@@ -12,7 +12,7 @@ Widget defaultButton({
 }) => 
 
 Container(
-  width: width,
+  width: width, 
   //height: 10.0,
   color: color,
   child: MaterialButton(
