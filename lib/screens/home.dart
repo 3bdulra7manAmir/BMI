@@ -13,7 +13,6 @@ class Home extends StatefulWidget
 
 class _HomeState extends State<Home>{
 
-
 Color? colorMale = Colors.grey[400];
 Color? colorFemale = Colors.grey[400];
 
@@ -31,11 +30,9 @@ String gender = '';
   {
     return SafeArea
     (
-
       //Scaffold
       child: Scaffold
       (
-
         // APP BAR
         appBar: AppBar
         (
@@ -47,10 +44,6 @@ String gender = '';
         (
           children:
           [
-
-
-
-
             //RED Container //PART1
             Expanded(
               child:
@@ -100,7 +93,7 @@ String gender = '';
                         setState(() {
                           colorFemale = Colors.blue;
                           colorMale = Colors.grey[400];
-                          gender = "Feale";
+                          gender = "Female";
                           //isMale = false;
                         });
                       },
